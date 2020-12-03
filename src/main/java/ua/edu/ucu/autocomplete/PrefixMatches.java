@@ -32,7 +32,8 @@ public class PrefixMatches {
                 } else {
                     int wordLength = newStringBuilder.length();
                     if (wordLength >= 2) {
-                        trie.add(new Tuple(newStringBuilder.toString(), wordLength));
+                        trie.add(new Tuple(newStringBuilder.toString(),
+                                wordLength));
                     }
                     newStringBuilder = new StringBuilder();
                 }
@@ -64,8 +65,10 @@ public class PrefixMatches {
 
     public Iterable<String> wordsWithPrefix(String pref, int k) {
         checkPrefix(pref);
-        int prefLength = pref.length();
-        int startIndex = prefLength > 2 ? prefLength : prefLength + 1;
+        int startIndex = pref.length();
+        if (startIndex == 2) {
+            startIndex++;
+        }
         int shift = startIndex + k - 1;
         Iterable<String> allWordsWithPrefixes = trie.wordsWithPrefix(pref);
         ArrayList<String> result = new ArrayList<>();

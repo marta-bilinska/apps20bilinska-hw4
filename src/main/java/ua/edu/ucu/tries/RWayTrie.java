@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RWayTrie implements Trie {
-    private static final int r = 26;
+    private static final int BRANCH_NUM = 26;
     private TrieNode root = new TrieNode();
     private int size;
 
     private static class TrieNode {
         private TrieNode parent;
         private Object value;
-        private final TrieNode[] next = new TrieNode[r];
+        private final TrieNode[] next = new TrieNode[BRANCH_NUM];
 
         public String toString() {
             if (value != null) {
@@ -76,7 +76,9 @@ public class RWayTrie implements Trie {
             return trieNode;
         }
         for (char c = 'a'; c <= 'z'; c++)
-            if (trieNode.next[c - 'a'] != null) return trieNode;
+            if (trieNode.next[c - 'a'] != null) {
+                return trieNode;
+            }
         return null;
     }
 
@@ -134,7 +136,7 @@ public class RWayTrie implements Trie {
     }
 
     public boolean checkCharacter(int c) {
-        return c < 26 && c >= 0;
+        return c < BRANCH_NUM && c >= 0;
     }
 
     @Override

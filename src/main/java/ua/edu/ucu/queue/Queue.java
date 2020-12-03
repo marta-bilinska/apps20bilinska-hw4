@@ -30,7 +30,7 @@ public class Queue {
         elements = elements.addLast(e);
     }
 
-    public Object[] toArray(){
+    public Object[] toArray() {
         return elements.toArray();
     }
 

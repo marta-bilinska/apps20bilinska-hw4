@@ -19,7 +19,7 @@ public class RWayTrie implements Trie {
             if (value != null) {
                 return value.toString();
             }
-            return null;
+            return "";
         }
     }
 
@@ -54,7 +54,7 @@ public class RWayTrie implements Trie {
 
     @Override
     public boolean delete(String string) {
-        if (!contains(string)){
+        if (!contains(string)) {
             return false;
         }
         root = delete(root, string, 0);
@@ -69,7 +69,7 @@ public class RWayTrie implements Trie {
         if (depth == string.length()) {
             trieNode.value = null;
         } else {
-            int c = string.charAt(depth)  - 'a';
+            int c = string.charAt(depth) - 'a';
             trieNode.next[c] = delete(trieNode.next[c], string, depth + 1);
         }
         if (trieNode.value != null) {

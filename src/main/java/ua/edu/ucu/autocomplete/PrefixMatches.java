@@ -5,15 +5,13 @@ import ua.edu.ucu.tries.Trie;
 import ua.edu.ucu.tries.Tuple;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.StreamSupport;
 
 /**
  * @author andrii
  */
 public class PrefixMatches {
 
-    public final Trie trie;
+    private final Trie trie;
 
     public PrefixMatches() {
         trie = new RWayTrie();
@@ -39,7 +37,8 @@ public class PrefixMatches {
                     newStringBuilder = new StringBuilder();
                 }
             }
-            trie.add(new Tuple(newStringBuilder.toString(), newStringBuilder.toString().length()));
+            trie.add(new Tuple(newStringBuilder.toString(),
+                    newStringBuilder.toString().length()));
         }
         return 0;
     }
@@ -66,12 +65,12 @@ public class PrefixMatches {
     public Iterable<String> wordsWithPrefix(String pref, int k) {
         checkPrefix(pref);
         int prefLength = pref.length();
-        int startIndex =  prefLength > 2? prefLength : prefLength + 1;
+        int startIndex = prefLength > 2 ? prefLength : prefLength + 1;
         int shift = startIndex + k - 1;
         Iterable<String> allWordsWithPrefixes = trie.wordsWithPrefix(pref);
         ArrayList<String> result = new ArrayList<>();
         for (String item : allWordsWithPrefixes) {
-            if ( item.length() <= shift && item.length()>=startIndex) {
+            if (item.length() <= shift && item.length() >= startIndex) {
                 result.add(item);
             }
         }

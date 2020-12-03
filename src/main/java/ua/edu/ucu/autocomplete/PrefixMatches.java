@@ -1,40 +1,84 @@
 package ua.edu.ucu.autocomplete;
 
+import ua.edu.ucu.tries.RWayTrie;
 import ua.edu.ucu.tries.Trie;
+import ua.edu.ucu.tries.Tuple;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.StreamSupport;
 
 /**
- *
  * @author andrii
  */
 public class PrefixMatches {
 
-    private Trie trie;
+    public final Trie trie;
 
-    public PrefixMatches(Trie trie) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public PrefixMatches() {
+        trie = new RWayTrie();
+    }
+
+    public PrefixMatches(Trie newTrie) {
+        trie = newTrie;
     }
 
     public int load(String... strings) {
-        throw new UnsupportedOperationException("Not supported yet.");        
+        for (String string : strings) {
+            StringBuilder newStringBuilder = new StringBuilder();
+            int len = string.length();
+            for (int i = 0; i < len; i++) {
+                char currentChar = string.charAt(i);
+                if (string.charAt(i) != ' ') {
+                    newStringBuilder.append(currentChar);
+                } else {
+                    int wordLength = newStringBuilder.length();
+                    if (wordLength >= 2) {
+                        trie.add(new Tuple(newStringBuilder.toString(), wordLength));
+                    }
+                    newStringBuilder = new StringBuilder();
+                }
+            }
+            trie.add(new Tuple(newStringBuilder.toString(), newStringBuilder.toString().length()));
+        }
+        return 0;
     }
 
     public boolean contains(String word) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return trie.contains(word);
     }
 
     public boolean delete(String word) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return trie.delete(word);
     }
 
     public Iterable<String> wordsWithPrefix(String pref) {
-        throw new UnsupportedOperationException("Not supported yet.");        
+        checkPrefix(pref);
+        return trie.wordsWithPrefix(pref);
+    }
+
+    public void checkPrefix(String prefix) {
+        if (prefix.length() < 2) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public Iterable<String> wordsWithPrefix(String pref, int k) {
-        throw new UnsupportedOperationException("Not supported yet.");        
+        checkPrefix(pref);
+        int prefLength = pref.length();
+        int startIndex =  prefLength > 2? prefLength : prefLength + 1;
+        int shift = startIndex + k - 1;
+        Iterable<String> allWordsWithPrefixes = trie.wordsWithPrefix(pref);
+        ArrayList<String> result = new ArrayList<>();
+        for (String item : allWordsWithPrefixes) {
+            if ( item.length() <= shift && item.length()>=startIndex) {
+                result.add(item);
+            }
+        }
+        return result;
     }
 
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return trie.size();
     }
 }

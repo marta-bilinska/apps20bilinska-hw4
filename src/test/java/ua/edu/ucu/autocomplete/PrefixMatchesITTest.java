@@ -44,4 +44,41 @@ public class PrefixMatchesITTest {
         assertThat(result, containsInAnyOrder(expResult));
     }
 
+    @Test( expected = IllegalArgumentException.class)
+    public void testWordsWithPrefixException() {
+        String pref = "a";
+        int k = 3;
+        Iterable<String> result = pm.wordsWithPrefix(pref, k);
+
+    }
+
+    @Test
+    public void testDeleteAndContains() {
+        PrefixMatches p = new PrefixMatches(new RWayTrie());
+        p.load("abc", "abce", "abcd", "abcde", "abcdef");
+        assertTrue(p.contains("abc"));
+        assertTrue(p.contains("abce"));
+        assertTrue(p.contains("abcd"));
+        assertTrue(p.contains("abcde"));
+        assertTrue(p.contains("abcdef"));
+        p.delete("abc");
+        p.delete("abce");
+        p.delete("abcd");
+        p.delete("abcde");
+        p.delete("abcdef");
+        assertFalse(p.contains("abc"));
+        assertFalse(p.contains("abce"));
+        assertFalse(p.contains("abcd"));
+        assertFalse(p.contains("abcde"));
+        assertFalse(p.contains("abcdef"));
+    }
+
+    @Test
+    public void test() {
+        PrefixMatches p = new PrefixMatches(new RWayTrie());
+        p.load("abc", "abce", "abcd", "abcde", "abcdef");
+        assertTrue(p.contains("abc"));
+        assertTrue(p.contains("abce"));
+        assertTrue(p.contains("abcd"));
+    }
 }
